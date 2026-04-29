@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      JWT_SECRET: /A/tbN32f9yCrEyAPSjPZv9SON6DQd8lCdL0bVkP7Kk=
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: Manasii$#2715
+      DB_NAME: expense_tracker
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: expense_tracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  test:
+    build:
+      context: .
+      target: builder
+    command: npm test
+
+volumes:
+  db_data:
+
